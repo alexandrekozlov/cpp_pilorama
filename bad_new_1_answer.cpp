@@ -24,5 +24,19 @@ int main()
 	// Correct fix:
 	Foo( std::make_unique<Object>().get(), std::make_unique<Object>().get() );
 
+	// The other option is to create objects first and then pass them
+	// as variables.
+	Object *arg1 = nullptr;
+	Object *arg2 = nullptr;
+	try {
+		arg1 = new Object{};
+		arg2 = new Object{};
+		Foo(arg1, arg2);
+	}
+	catch (...) {
+		delete arg1;
+		delete arg2;
+	}
+
 	return 0;
 }

@@ -19,7 +19,7 @@ struct Impl : public Interface
 	int *ptr_;
 };
 
-int main() 
+int main()
 {
 	Interface *object = new Impl();
 
