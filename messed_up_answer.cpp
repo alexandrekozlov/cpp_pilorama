@@ -17,6 +17,10 @@
 // succeded (optional)
 //   returns false on invalid input
 //
+// Returns:
+//   array of f(x) for each x
+//     [f(x1), f(x2), f(x3)...]
+//
 // FIX: wrong return type
 std::vector<int> compute_linear(const int *data, int size, bool *succeeded)
 {
