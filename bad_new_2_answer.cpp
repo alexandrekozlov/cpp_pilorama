@@ -3,6 +3,11 @@
 
 struct Object
 {
+	Object()
+	{
+		// Here is code that might throw...
+	}
+
 	std::string str;
 };
 
