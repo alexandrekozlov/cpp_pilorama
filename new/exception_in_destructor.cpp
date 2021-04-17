@@ -1,12 +1,12 @@
 #include "prolog.h"
 
-/// $name Exception in the destructor.
-/// $category exceptions
-/// $level beginner
+/// $name: Exception in the destructor.
+/// $keywords: exceptions
+/// $level: beginner
 
-/// $question Why application crashes?
+/// $question: Why application crashes?
 
-/// $output application
+/// $output: run
 
 /// $code
 class DeviceDriver

@@ -1,12 +1,12 @@
 #include "prolog.h"
 
-/// $name Logical operator short-circuit
-/// $category language operators
-/// $level intermediate
+/// $name: Logical operator short-circuit
+/// $category: language operators
+/// $level: intermediate
 
-/// $question Why it fails?
+/// $question: Why it fails?
 
-/// $output application
+/// $output: run
 
 /// $code
 bool permissions_granted = false;

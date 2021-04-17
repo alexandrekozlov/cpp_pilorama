@@ -1,12 +1,12 @@
 #include "prolog.h"
 
-/// $name Bad method override
-/// $category polymorphism, inheritance
-/// $level beginner
+/// $name: Bad method override
+/// $keywords: polymorphism inheritance
+/// $level: beginner
 
-/// $question Why it fails?
+/// $question: Why it fails?
 
-/// $output application
+/// $output: run
 
 /// $code
 class Animal

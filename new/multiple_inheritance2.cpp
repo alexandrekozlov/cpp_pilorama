@@ -1,12 +1,12 @@
 #include "prolog.h"
 
-/// $name Diamond inheritance 2
-/// $category polymorphism, inheritance, diamond
-/// $level intermediate
+/// $name: Diamond inheritance 2
+/// $category: polymorphism inheritance diamond
+/// $level: intermediate
 
-/// $question Why it fails?
+/// $question: Why it fails?
 
-/// $output application
+/// $output: run
 
 /// $code
 class Creature

@@ -1,12 +1,12 @@
 #include "prolog.h"
 
-/// $name Exceptions. Specific vs generic. Catch ordering
-/// $category exceptions
-/// $level beginner
+/// $name: Exceptions. Specific vs generic. Catch ordering
+/// $keywords: exceptions
+/// $level: beginner
 
-/// $question Why it fails?
+/// $question: Why it fails?
 
-/// $output application
+/// $output: run
 
 /// $code
 class Exception 
