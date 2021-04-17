@@ -1,5 +1,14 @@
-#include <iostream>
+#include "prolog.h"
 
+/// $name Logical operator short-circuit
+/// $category language operators
+/// $level intermediate
+
+/// $question Why it fails?
+
+/// $output application
+
+/// $code
 bool permissions_granted = false;
 
 bool IsLogEnabled()
@@ -26,8 +35,7 @@ int main()
 
     // Some other code....
 
-    if (!permissions_granted)
-        std::cout << "Error: Access denied" << std::endl;
+    EXPECT_TRUE(permissions_granted);
 
     return 0;
 }

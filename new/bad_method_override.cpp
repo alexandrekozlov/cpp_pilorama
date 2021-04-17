@@ -1,20 +1,14 @@
-#include <iostream>
-#include <cstring>
+#include "prolog.h"
 
-void ExpectEq(const char *actual, const char *expected)
-{
-    if(std::strcmp(actual, expected) == 0)
-    {
-        std::cout << "PASS" << std::endl;
-    }
-    else
-    {
-        std::cout << "FAIL" << std::endl;
-        std::cout << "        Expected: " << expected << "\n"
-                << "          Actual: " << actual << std::endl;
-    }    
-}
+/// $name Bad method override
+/// $category polymorphism, inheritance
+/// $level beginner
 
+/// $question Why it fails?
+
+/// $output application
+
+/// $code
 class Animal
 {
 public:
@@ -37,7 +31,7 @@ int main()
 {
     Animal *animal = new Cat();
 
-    ExpectEq(animal->Says(), "Meow!");
+    EXPECT_EQ(animal->Says(), "Meow!");
 
     return 0;
 }

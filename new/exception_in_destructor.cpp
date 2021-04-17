@@ -1,7 +1,14 @@
-#include <iostream>
-#include <cstring>
-#include <exception>
+#include "prolog.h"
 
+/// $name Exception in the destructor.
+/// $category exceptions
+/// $level beginner
+
+/// $question Why application crashes?
+
+/// $output application
+
+/// $code
 class DeviceDriver
 {
 public:
