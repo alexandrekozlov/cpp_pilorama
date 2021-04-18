@@ -1,33 +1,65 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <cctype>
-#include <string_view>
 #include <algorithm>
+#include <cctype>
+#include <fstream>
+#include <iostream>
+#include <string_view>
+#include <string>
+#include <filesystem>
 
 /// $name: General C++ code understanding.
 /// $keywords: codereading
 /// $level: beginner
 
 /// $code
+#if defined(MSVC_VER)
+
 int Compile(const char *source_file, bool log)
 {
     const char *e = std::strrchr(source_file, '.');
     const auto output_file = std::string_view(source_file, e - source_file);
 
+    std::error_code ec;
+    std::filesystem::create_directory("out", ec);
+
+    std::string command_line;
+    command_line += "cl /std:c++17 ";
+    command_line += " ";
+    command_line += source_file;
+    if (log)
+        command_line += " > out\\compile_log.tmp";
+    else
+        command_line += " > NUL";
+
+    return system(command_line.c_str());
+}
+
+#else
+
+int Compile(const char *source_file, bool log)
+{
+    const char *e = std::strrchr(source_file, '.');
+    const auto output_file = std::string_view(source_file, e - source_file);
+
+    std::error_code ec;
+    std::filesystem::create_directory("out", ec);
+
     std::string command_line;
     command_line += "c++ --std=c++17 -o ";
+    command_line += "out/";
     command_line += output_file;
     command_line += " ";
     command_line += source_file;
     if (log)
-        command_line += " > compile_log.tmp 2>&1";
+        command_line += " > out/compile_log.tmp 2>&1";
     else
         command_line += " > /dev/null 2>&1";
 
     return system(command_line.c_str());
 }
 
+#endif
+
+#if defined(WINDOWS)
 
 int Run(const char *source_file)
 {
@@ -36,13 +68,36 @@ int Run(const char *source_file)
     const char *e = std::strrchr(source_file, '.');
     const auto output_file = std::string_view(source_file, e - source_file);
 
+    std::error_code ec;
+    std::filesystem::create_directory("out", ec);
+
     std::string command_line;
-    command_line += "./";
+    command_line += ".\\";
     command_line += output_file;
-    command_line += " > run_log.tmp 2>&1";
+    command_line += " > out\\run_log.tmp";
     return system(command_line.c_str());
 }
 
+#else
+
+int Run(const char *source_file)
+{
+    Compile(source_file, false);
+
+    const char *e = std::strrchr(source_file, '.');
+    const auto output_file = std::string_view(source_file, e - source_file);
+
+    std::error_code ec;
+    std::filesystem::create_directory("out", ec);
+
+    std::string command_line;
+    command_line += "./out/";
+    command_line += output_file;
+    command_line += " > out/run_log.tmp 2>&1";
+    return system(command_line.c_str());
+}
+
+#endif
 
 bool IsKeywordLine(std::string_view sv, std::string &keyword, std::string &content, size_t &prefix_size)
 {
@@ -66,7 +121,7 @@ bool IsKeywordLine(std::string_view sv, std::string &keyword, std::string &conte
 
     sv.remove_prefix(kwpos);
     auto kwend = sv.find_first_of(" \t");
-    if (kwend == std::string_view::npos) 
+    if (kwend == std::string_view::npos)
     {
         keyword = sv;
         return true;
@@ -94,7 +149,8 @@ std::string ReadFile(const char *file, size_t from_line = 0, int lines = -1)
     std::string content;
 
     auto is = std::ifstream(file);
-    if (is.fail()) {
+    if (is.fail())
+    {
         return content;
     }
 
@@ -124,6 +180,8 @@ std::string ReadBlock(std::istream &is, size_t prefix)
 {
     std::string content;
 
+    int lines = 0;
+
     std::string buffer;
     while(std::getline(is, buffer))
     {
@@ -139,20 +197,23 @@ std::string ReadBlock(std::istream &is, size_t prefix)
 
         sv.remove_prefix(std::min(sv.size(), prefix));
 
+        if (lines ++ > 0)
+            content += '\n';
+
         content += sv;
-        content += '\n';
     }
 
     return content;
 }
 
 
-class QuestionContent 
+class QuestionContent
 {
 public:
     void Read(std::istream &is);
 
     std::string name;
+    std::string description;
     std::string keywords;
     std::string level;
     std::string question;
@@ -182,6 +243,14 @@ void QuestionContent::Read(std::istream &is)
             {
                 name = arg;
             }
+            else if (keyword == "$description:")
+            {
+                description = arg;
+            }
+            else if (keyword == "$description")
+            {
+                description = ReadBlock(is, prefix_size);
+            }
             else if (keyword == "$keywords:")
             {
                 keywords = arg;
@@ -189,6 +258,14 @@ void QuestionContent::Read(std::istream &is)
             else if (keyword == "$level:")
             {
                 level = arg;
+            }
+            else if (keyword == "$question:")
+            {
+                question = arg;
+            }
+            else if (keyword == "$question")
+            {
+                question = ReadBlock(is, prefix_size);
             }
             else if (keyword == "$output:")
             {
@@ -206,7 +283,7 @@ void QuestionContent::Read(std::istream &is)
                     output_run_log = true;
                 }
             }
-            else if (keyword == "$code") 
+            else if (keyword == "$code")
             {
                 code = ReadBlock(is, 0);
             }
@@ -222,7 +299,7 @@ QuestionContent PrepareQuestion(const char *question_file)
     QuestionContent q;
 
     auto is = std::ifstream(question_file);
-    if (is.fail()) 
+    if (is.fail())
     {
         return q;
     }
@@ -234,13 +311,13 @@ QuestionContent PrepareQuestion(const char *question_file)
     if (q.output_compile_log)
     {
         Compile(question_file, true);
-        q.compile_log = ReadFile("compile_log.tmp");
+        q.compile_log = ReadFile("out/compile_log.tmp");
     }
 
     if (q.output_run_log)
     {
         Run(question_file);
-        q.run_log = ReadFile("run_log.tmp");
+        q.run_log = ReadFile("out/run_log.tmp");
     }
 
     return q;
@@ -262,6 +339,11 @@ int main(int argc, char **argv)
 
         os << "## " << q.name << "\n\n";
 
+        if (!q.description.empty())
+        {
+            os << q.description << "\n\n";
+        }
+
         if (!q.keywords.empty())
         {
             os << "Keywords: " << q.keywords << "\n\n";
@@ -273,7 +355,7 @@ int main(int argc, char **argv)
         {
             os << "### The code:\n"
                 << "```c++\n"
-                << q.code
+                << q.code << '\n'
                 << "```\n"
                 << '\n';
         }
@@ -282,7 +364,7 @@ int main(int argc, char **argv)
         {
             os << "### The compiler output:\n"
                 << "```\n"
-                << q.compile_log
+                << q.compile_log << '\n'
                 << "```\n\n";
         }
 
@@ -290,7 +372,7 @@ int main(int argc, char **argv)
         {
             os << "### The result:\n"
                 << "```\n"
-                << q.run_log
+                << q.run_log << '\n'
                 << "```\n\n";
         }
 
@@ -311,7 +393,7 @@ int main(int argc, char **argv)
         {
             os << "### The code:\n"
                 << "```c++\n"
-                << q.code
+                << q.code << '\n'
                 << "```\n"
                 << '\n';
         }
@@ -320,7 +402,7 @@ int main(int argc, char **argv)
         {
             os << "### The compiler output:\n"
                 << "```\n"
-                << q.compile_log
+                << q.compile_log << '\n'
                 << "```\n\n";
         }
 
@@ -328,7 +410,7 @@ int main(int argc, char **argv)
         {
             os << "### The result:\n"
                 << "```\n"
-                << q.run_log
+                << q.run_log << '\n'
                 << "```\n\n";
         }
 
@@ -343,7 +425,6 @@ int main(int argc, char **argv)
         std::cout << "error: unknown template name\n";
         return 1;
     }
-    
 
     return 0;
 }

@@ -1,10 +1,15 @@
 #!/bin/sh
 
-c++ --std=c++17 -o generator generator.cpp
+mkdir bin
+
+c++ --std=c++17 -o bin/generator generator.cpp
+
+mkdir questions
+mkdir reference
 
 for n in *.cpp ; do
     out="$(basename "$n" '.cpp').md"
-    qmd="q_$(basename "$n" '.cpp').md"
-    ./generator full "$n" > "$out"
-    ./generator short "$n" > "$qmd"
+    qmd="$(basename "$n" '.cpp').md"
+    bin/generator full "$n" > "reference/$out"
+    bin/generator short "$n" > "questions/$qmd"
 done

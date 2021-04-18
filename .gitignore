@@ -1,2 +1,8 @@
 /.vs/
 new/*.tmp
+new/out/
+new/reference/
+new/questions/
+new/bin/
+new/generator
+.DS_Store
