@@ -93,7 +93,7 @@ int Run(const char *source_file)
     std::filesystem::create_directory("out", ec);
 
     std::string command_line;
-    command_line += "./out/";
+    command_line += "sh -c ./out/";
     command_line += output_file;
     command_line += " > out/run_log.tmp 2>&1";
     return system(command_line.c_str());

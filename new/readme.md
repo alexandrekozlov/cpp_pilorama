@@ -1,14 +1,4 @@
-## Template
-/// $name Test name
-/// $category polymorphism inheritance language operators
-/// $level beginner intermediate senior guru
-
-/// $question Why it fails?
-
-/// $output application compiler
-/// $compile ok fail ignore
-
-/// $code
+* Check out `Cracking the Coding Interview` for general programming questions
 
 ## Basic concepts to test
 * Inheritance
@@ -27,6 +17,7 @@
 * nullptr, why is it needed?
 * Why nullptr_t is needed?
 * Pointers, pointer arithmetic
+* Reference. Reference vs pointeer.
 
 
 # Basic practical questions
@@ -72,6 +63,7 @@ constexpr
 ## Advanced
 Templates
 SFINAE
+Undefined behavior. What it means. Why it exists in the first place?
 
 
 ## C++11/Technical/Concurrency
@@ -90,3 +82,37 @@ extern vs static vs member vs global variable
 
 ## Polymorphism
 
+## Practical
+
+```
+What will be the output of the following C++ program:
+
+#include<iostream>
+using namespace std;
+int main(){
+int a=1;
+cout<<(a++)*(++a)<<endl;
+return 0;
+}
+```
+
+```
+What will be the value of x in the following C++ program
+
+#include<iostream>
+using namespace std;
+int main(){
+int a=1;
+int x=(a++)++;
+cout<<x<<endl;
+return 0;
+}
+```
+```
+There are two ways to use lower_bound in std::map:
+std::map<int, int> m; 
+// .. add elements .. 
+int k = 30; 
+auto it1 = std::lower_bound(m.begin(), m.end(), k); 
+auto it2 = m.lower_bound(k); 
+```
