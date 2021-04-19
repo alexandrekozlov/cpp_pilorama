@@ -11,18 +11,20 @@
 /// $level: beginner
 
 /// $code
-#if defined(MSVC_VER)
+#if defined(_MSC_VER)
 
 int Compile(const char *source_file, bool log)
 {
     const char *e = std::strrchr(source_file, '.');
-    const auto output_file = std::string_view(source_file, e - source_file);
+    const auto output_file = std::string(source_file, e - source_file) + ".exe";
 
     std::error_code ec;
     std::filesystem::create_directory("out", ec);
 
     std::string command_line;
-    command_line += "cl /std:c++17 ";
+    command_line += "cl /std:c++17 /EHsc /Fe";
+    command_line += "out\\";
+    command_line += output_file;
     command_line += " ";
     command_line += source_file;
     if (log)
@@ -59,7 +61,7 @@ int Compile(const char *source_file, bool log)
 
 #endif
 
-#if defined(WINDOWS)
+#if defined(_MSC_VER)
 
 int Run(const char *source_file)
 {
@@ -72,7 +74,7 @@ int Run(const char *source_file)
     std::filesystem::create_directory("out", ec);
 
     std::string command_line;
-    command_line += ".\\";
+    command_line += ".\\out\\";
     command_line += output_file;
     command_line += " > out\\run_log.tmp";
     return system(command_line.c_str());
