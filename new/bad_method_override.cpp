@@ -1,6 +1,7 @@
 #include "prolog.h"
 
 /// $name: Bad method override
+/// $description: Check understanding of virtual methods.
 /// $keywords: polymorphism inheritance
 /// $level: beginner
 

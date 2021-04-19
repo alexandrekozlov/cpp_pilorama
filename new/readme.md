@@ -1,4 +1,9 @@
-* Check out `Cracking the Coding Interview` for general programming questions
+## TODOs
+  * Use https://hackmd.io/ to present?
+  * Guideline: test must fit one screen, including output.
+  * Copy source before compilation so that the compilation log and markdown
+    file name do not give away the intention or provide hint.
+  * Check out `Cracking the Coding Interview` for general programming questions
 
 ## Basic concepts to test
 * Inheritance
@@ -9,13 +14,12 @@
 * Preprocessor
 * Compilation
 * Linking
-* Static polymorphysm vs dynamic
+* Static polymorphysm vs dynamic as applicable to c++
 * Interface vs abstract class
 * Inheritance vs composition
 * Reference vs Aggregation
 * Exceptions. How do they work? What's guaranteed?
-* nullptr, why is it needed?
-* Why nullptr_t is needed?
+* NULL vs nullptr. nullptr, why is it needed? Why nullptr_t is needed? [nullptr_t.cpp]
 * Pointers, pointer arithmetic
 * Reference. Reference vs pointeer.
 
@@ -25,7 +29,6 @@
 * Composition?
 * Default arguments values.
 * Type promotion. Specific cases of char->int->long etc.
-* NULL vs nullptr. Type overload for void *.
 * non-virtual destructor
 * operator overloading
 * missing virtual in method of a base class, but present in the subclass

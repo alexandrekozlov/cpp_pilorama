@@ -9,7 +9,7 @@
 /// memory layout.
 /// $$
 
-/// $question: What value s is going to be and what factors affect the value.
+/// $question: What value `s` is going to be and what factors affect the value.
 
 /// $code
 int main()

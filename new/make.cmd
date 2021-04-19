@@ -1,10 +1,10 @@
 cl /std:c++17 /EHsc generator.cpp
 
-mkdir full
-mkdir short
+mkdir reference
+mkdir questions
 for %%n in (*.cpp) do (
-	generator full "%%n" > "full\%%~nn.md"
-	generator short "%%n" > "short\%%~nn.md"
+	generator full "%%n" > "reference\%%~nn.md"
+	generator short "%%n" > "questions\%%~nn.md"
 )
 
 
